@@ -1,4 +1,4 @@
-import { ShinyButton } from "./ShinyButton";
+import { ShinyButton } from "./ShinyButton/ShinyButton";
 
 function App() {
   return (

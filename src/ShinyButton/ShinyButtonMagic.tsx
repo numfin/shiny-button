@@ -1,17 +1,8 @@
-import { PropsWithChildren, useEffect, useRef, useState } from "react";
-
+import { useEffect, useRef, useState } from "react";
+import { clamp, distance, lerp } from "./math.tools";
+import { createRAFLoop } from "./frame.tools";
 import style from "./shiny.module.css";
 
-interface ShinyButtonProps extends PropsWithChildren {}
-
-export function ShinyButton(props: ShinyButtonProps) {
-  return (
-    <button className={style["shiny-button"]}>
-      <span className={style["shiny-button-text"]}>{props.children}</span>
-      <ShinyButtonMagic />
-    </button>
-  );
-}
 const CIRCLE_RADIUS = 50;
 const INTERPOLATION_STEP = 0.03;
 
@@ -94,25 +85,6 @@ export function ShinyButtonMagic() {
   );
 }
 
-interface Dot {
-  x: number;
-  y: number;
-}
-
-function distance(dot1: Dot, dot2: Dot) {
-  const x = (dot1.x - dot2.x) ** 2;
-  const y = (dot1.y - dot2.y) ** 2;
-  return Math.sqrt(x + y);
-}
-
-function lerp(start: number, end: number, amount: number) {
-  return (1 - amount) * start + amount * end;
-}
-
-function clamp(v: number, min: number, max: number) {
-  return Math.max(Math.min(v, max), min);
-}
-
 interface ClientRect {
   getBoundingClientRect(): DOMRect;
 }
@@ -135,18 +107,5 @@ function getCursorPosWithinContainer(
   return {
     x: clamp(mouseEvent.clientX - cX, 0, cW),
     y: clamp(mouseEvent.clientY - cY, 0, cH),
-  };
-}
-
-function createRAFLoop(fn: () => void) {
-  let stopped = false;
-  const delayedFn = () => {
-    if (stopped) return;
-    fn();
-    window.requestAnimationFrame(delayedFn);
-  };
-  window.requestAnimationFrame(delayedFn);
-  return () => {
-    stopped = true;
   };
 }
