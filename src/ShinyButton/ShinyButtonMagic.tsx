@@ -6,9 +6,11 @@ import style from "./shiny.module.css";
 const CIRCLE_RADIUS = 50;
 const INTERPOLATION_STEP = 0.03;
 
+const INITIAL_POS = { x: 150, y: -50 };
+
 export function ShinyButtonMagic() {
-  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
-  const [circlePos, setCirclePos] = useState({ x: 0, y: 0 });
+  const [cursorPos, setCursorPos] = useState({ ...INITIAL_POS });
+  const [circlePos, setCirclePos] = useState({ ...INITIAL_POS });
   const [circleScale, setCircleScale] = useState(1);
   const [magicActive, setMagicActive] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -55,7 +57,7 @@ export function ShinyButtonMagic() {
     setMagicActive(false);
   }
   function reset() {
-    setCursorPos({ x: 150, y: -50 });
+    setCursorPos({ ...INITIAL_POS });
     deactivateMagic();
   }
 
